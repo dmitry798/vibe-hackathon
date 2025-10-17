@@ -45,13 +45,10 @@ def get_context():
         city = data.get('city', 'Moscow')
         
         time_context = context_service.get_time_context()
-        weather_context = context_service.get_weather_context(city)
-        
         return jsonify({
             'success': True,
             'context': {
-                **time_context,
-                'weather': weather_context
+                **time_context
             }
         })
     except Exception as e:
@@ -76,8 +73,7 @@ def chat():
         
         # Get context
         time_context = context_service.get_time_context()
-        weather_context = context_service.get_weather_context(city)
-        full_context = {**time_context, 'weather': weather_context}
+        full_context = {**time_context}
         
         # Detect mood
         mood_info = mood_detector.detect_mood(user_message)
@@ -188,8 +184,7 @@ def get_recommendations():
         
         # Get context
         time_context = context_service.get_time_context()
-        weather_context = context_service.get_weather_context(city)
-        full_context = {**time_context, 'weather': weather_context}
+        full_context = {**time_context}
         
         # Generate recommendations
         recommendations = recommendation_engine.generate_recommendations(

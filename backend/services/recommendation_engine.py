@@ -26,8 +26,7 @@ class RecommendationEngine:
         # Get current context if not provided
         if not context:
             time_context = self.context_service.get_time_context()
-            weather_context = self.context_service.get_weather_context()
-            context = {**time_context, 'weather': weather_context}
+            context = {**time_context}
         
         # Determine genre preferences
         genre_preferences = self._determine_genres(detected_mood, context)
@@ -70,10 +69,6 @@ class RecommendationEngine:
             time_score = self._calculate_time_score(movie, context.get('time_of_day'))
             score += time_score * self.config.CONTEXT_WEIGHTS['time_of_day']
             
-            # Weather score
-            weather_score = self._calculate_weather_score(movie, context.get('weather'))
-            score += weather_score * self.config.CONTEXT_WEIGHTS['weather']
-            
             # Recency score
             recency_score = self._calculate_recency_score(movie)
             score += recency_score * 0.1
@@ -83,7 +78,6 @@ class RecommendationEngine:
                 'score': score,
                 'mood_match': mood_score,
                 'time_match': time_score,
-                'weather_match': weather_score
             })
         
         scored.sort(key=lambda x: x['score'], reverse=True)
@@ -109,17 +103,6 @@ class RecommendationEngine:
             return 0.5
         
         preferred_genres = set(self.config.TIME_PREFERENCES[time_of_day])
-        movie_genres = set(movie.get('genres', []))
-        
-        intersection = preferred_genres & movie_genres
-        return len(intersection) / len(preferred_genres) if preferred_genres else 0.3
-    
-    def _calculate_weather_score(self, movie, weather):
-        """Calculate weather compatibility"""
-        if not weather or weather.get('condition') not in self.config.WEATHER_CONTENT_MAP:
-            return 0.5
-        
-        preferred_genres = set(self.config.WEATHER_CONTENT_MAP[weather['condition']])
         movie_genres = set(movie.get('genres', []))
         
         intersection = preferred_genres & movie_genres

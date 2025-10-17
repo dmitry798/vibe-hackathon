@@ -7,6 +7,7 @@ class Config:
     """Base configuration"""
     load_dotenv()
     SECRET_KEY = os.getenv('SECRET_KEY', 'okko-secret-key-change-in-production')
+    APP_URL = os.getenv('APP_URL', 'http://localhost:3000')
     
     # OpenRouter Configuration
     OPENROUTER_API_KEY = os.getenv('OPENROUTER_API_KEY', '')
@@ -24,11 +25,6 @@ class Config:
     SESSION_TYPE = 'filesystem'
     PERMANENT_SESSION_LIFETIME = timedelta(hours=24)
     
-    # Weather API Configuration
-    WEATHER_API_KEY = os.getenv('WEATHER_API_KEY', '')
-    WEATHER_API_URL = 'https://api.openweathermap.org/data/2.5/weather'
-    GEOCODING_API_URL = 'http://api.openweathermap.org/geo/1.0/direct'
-    
     # Embedding Model
     EMBEDDING_MODEL = 'sentence-transformers/paraphrase-multilingual-mpnet-base-v2'
     
@@ -39,7 +35,6 @@ class Config:
     CONTEXT_WEIGHTS = {
         'mood': 0.3,
         'time_of_day': 0.15,
-        'weather': 0.15,
         'day_of_week': 0.1,
         'social_context': 0.15,
         'duration': 0.15
@@ -65,15 +60,6 @@ class Config:
         'night': ['ужасы', 'триллер', 'фантастика']
     }
     
-    # Weather-Content Mapping
-    WEATHER_CONTENT_MAP = {
-        'clear': ['приключения', 'боевик', 'комедия'],
-        'clouds': ['драма', 'детектив', 'триллер'],
-        'rain': ['драма', 'мелодрама', 'комедия'],
-        'snow': ['семейный', 'мелодрама', 'приключения'],
-        'thunderstorm': ['триллер', 'ужасы', 'фантастика']
-    }
-
 class DevelopmentConfig(Config):
     """Development configuration"""
     DEBUG = True
