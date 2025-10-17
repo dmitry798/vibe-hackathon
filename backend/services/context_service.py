@@ -11,6 +11,10 @@ class ContextService:
     
     def __init__(self, config=None):
         self.config = config or Config()
+        if isinstance(self.config, dict):
+            self.time_preferences = self.config.get('TIME_PREFERENCES', {})
+        else:
+            self.time_preferences = self.config.TIME_PREFERENCES
     
     def get_time_context(self, timezone='Europe/Moscow'):
         """Get time-based context"""
@@ -45,8 +49,8 @@ class ContextService:
         
         # Time-based preferences
         time_of_day = context.get('time_of_day')
-        if time_of_day in self.config.TIME_PREFERENCES:
-            preferences['genres'].extend(self.config.TIME_PREFERENCES[time_of_day])
+        if time_of_day in self.time_preferences:
+            preferences['genres'].extend(self.time_preferences[time_of_day])
         
         # Weekend vs weekday
         if context.get('is_weekend'):

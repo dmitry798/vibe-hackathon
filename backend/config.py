@@ -12,7 +12,7 @@ class Config:
     # OpenRouter Configuration
     OPENROUTER_API_KEY = os.getenv('OPENROUTER_API_KEY', '')
     OPENROUTER_BASE_URL = 'https://openrouter.ai/api/v1'
-    OPENROUTER_MODEL = 'anthropic/claude-3-sonnet'  # or 'openai/gpt-4'
+    OPENROUTER_MODEL = 'openai/gpt-4'
     
     # Database Configuration (from okko_db.json)
     DB_HOST = os.getenv('DB_HOST', '109.73.203.167')

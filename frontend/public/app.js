@@ -5,7 +5,7 @@ class OkkoAIAssistant {
         this.messageHistory = [];
         this.currentContext = {
             time: this.getCurrentTime(),
-            weather: 'Солнечно, +15°C',
+            weather: 'Облачно, +9°C',
             location: 'Москва',
             mood: 'neutral'
         };
@@ -227,7 +227,7 @@ class OkkoAIAssistant {
             this.hideTypingIndicator();
             
             // Add assistant response
-            this.addMessage(response.message, 'assistant');
+            this.addMessage(response.response, 'assistant');
             
             // Display recommendations if any
             if (response.recommendations && response.recommendations.length > 0) {
@@ -305,14 +305,14 @@ class OkkoAIAssistant {
                     genres: ['комедия', 'криминал'],
                     description: 'Культовая комедия братьев Коэн о хиппи-пацифисте, который случайно оказывается втянут в криминальную историю.',
                     score: 8.2,
-                    url: 'https://okko.tv/movie/comedy1'
+                    url: 'https://okko.tv/movie/the-big-lebowski'
                 },
                 {
                     title: 'Одиннадцать друзей Оушена',
                     genres: ['комедия', 'триллер', 'криминал'],
                     description: 'Дэнни Оушен собирает команду первоклассных специалистов, чтобы ограбить три крупнейших казино Лас-Вегаса.',
                     score: 7.8,
-                    url: 'https://okko.tv/movie/comedy2'
+                    url: 'https://okko.tv/movie/oceans-eleven'
                 }
             ],
             drama: [
@@ -321,7 +321,7 @@ class OkkoAIAssistant {
                     genres: ['драма', 'триллер', 'криминал'],
                     description: 'История банкира, несправедливо приговоренного к пожизненному заключению в тюрьме Шоушенк.',
                     score: 9.1,
-                    url: 'https://okko.tv/movie/drama1'
+                    url: 'https://okko.tv/movie/the-shawshank-redemption'
                 },
                 {
                     title: 'Все везде и сразу, вселенная',
@@ -337,14 +337,14 @@ class OkkoAIAssistant {
                     genres: ['мюзикл', 'мелодрама', 'драма'],
                     description: 'История любви старлетки и джазового музыканта, которые пытаются осуществить свои мечты в Лос-Анджелесе.',
                     score: 8.7,
-                    url: 'https://okko.tv/movie/romance1'
+                    url: 'https://okko.tv/movie/la-la-land'
                 },
                 {
                     title: 'Вечное сияние чистого разума',
                     genres: ['мелодрама', 'драма', 'фантастика'],
                     description: 'Пара решает стереть друг друга из памяти, но в процессе понимают, что не могут жить друг без друга.',
                     score: 8.5,
-                    url: 'https://okko.tv/movie/romance2'
+                    url: 'https://okko.tv/movie/vechnoe-siyanie-chistogo-razuma'
                 }
             ],
             horror: [
@@ -353,14 +353,14 @@ class OkkoAIAssistant {
                     genres: ['ужасы', 'триллер', 'детектив'],
                     description: 'Молодой темнокожий фотограф едет знакомиться с родителями своей белой девушки, но уик-энд превращается в кошмар.',
                     score: 7.9,
-                    url: 'https://okko.tv/movie/horror1'
+                    url: 'https://okko.tv/movie/proch'
                 },
                 {
                     title: 'Тихое место',
                     genres: ['ужасы', 'триллер', 'фантастика'],
                     description: 'Семья с детьми выживает в мире, населенном слепыми монстрами, реагирующими на любой звук.',
                     score: 8.1,
-                    url: 'https://okko.tv/movie/horror2'
+                    url: 'https://okko.tv/movie/tihoe-mesto'
                 }
             ],
             action: [
@@ -369,14 +369,14 @@ class OkkoAIAssistant {
                     genres: ['боевик', 'триллер'],
                     description: 'Бывший наемный убийца вынужден вернуться в мир криминала, чтобы отомстить за смерть своей собаки.',
                     score: 8.4,
-                    url: 'https://okko.tv/movie/action1'
+                    url: 'https://okko.tv/movie/dzhon-uik'
                 },
                 {
                     title: 'Безумный Макс: Дорога ярости',
                     genres: ['боевик', 'фантастика', 'постапокалипсис'],
                     description: 'В пост-апокалиптическом мире Макс присоединяется к группе женщин, спасающихся от тирана.',
                     score: 8.8,
-                    url: 'https://okko.tv/movie/action2'
+                    url: 'https://okko.tv/movie/bezumnyy-maks-doroga-yarosti'
                 }
             ],
             mixed: [
@@ -385,21 +385,21 @@ class OkkoAIAssistant {
                     genres: ['триллер', 'драма', 'комедия'],
                     description: 'Бедная семья обманом проникает в жизнь богатой семьи, что приводит к непредсказуемым последствиям.',
                     score: 9.3,
-                    url: 'https://okko.tv/movie/mixed1'
+                    url: 'https://okko.tv/movie/parazity'
                 },
                 {
                     title: 'Интерстеллар',
                     genres: ['фантастика', 'драма', 'приключения'],
                     description: 'Группа исследователей отправляется в космос, чтобы найти новый дом для человечества.',
                     score: 9.0,
-                    url: 'https://okko.tv/movie/mixed2'
+                    url: 'https://okko.tv/movie/interstellar'
                 },
                 {
                     title: 'Дюна',
                     genres: ['драма', 'фантастика', 'приключения'],
                     description: 'Наследник великого дома Атрейдес отправляется на самую опасную планету во вселенной.',
                     score: 8.6,
-                    url: 'https://okko.tv/movie/mixed3'
+                    url: 'https://okko.tv/movie/dyuna'
                 }
             ]
         };

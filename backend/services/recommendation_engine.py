@@ -16,6 +16,15 @@ class RecommendationEngine:
         self.embeddings = EmbeddingManager()
         self.context_service = ContextService(config)
         self.mood_detector = MoodDetector()
+        
+        if isinstance(self.config, dict):
+            self.mood_genre_map = self.config.get('MOOD_GENRE_MAP', {})
+            self.context_weights = self.config.get('CONTEXT_WEIGHTS', {})
+            self.time_preferences = self.config.get('TIME_PREFERENCES', {})
+        else:
+            self.mood_genre_map = self.config.MOOD_GENRE_MAP
+            self.context_weights = self.config.CONTEXT_WEIGHTS
+            self.time_preferences = self.config.TIME_PREFERENCES
     
     def generate_recommendations(self, user_query, context=None, limit=10):
         """Generate contextual recommendations"""
@@ -45,8 +54,8 @@ class RecommendationEngine:
         genres = set()
         
         # Mood-based genres
-        if mood in self.config.MOOD_GENRE_MAP:
-            genres.update(self.config.MOOD_GENRE_MAP[mood])
+        if mood in self.mood_genre_map:
+            genres.update(self.mood_genre_map[mood])
         
         # Context-based genres
         content_prefs = self.context_service.determine_content_preferences(context)
@@ -63,11 +72,11 @@ class RecommendationEngine:
             
             # Mood match score
             mood_score = self._calculate_mood_score(movie, mood)
-            score += mood_score * self.config.CONTEXT_WEIGHTS['mood']
+            score += mood_score * self.context_weights['mood']
             
             # Time of day score
             time_score = self._calculate_time_score(movie, context.get('time_of_day'))
-            score += time_score * self.config.CONTEXT_WEIGHTS['time_of_day']
+            score += time_score * self.context_weights['time_of_day']
             
             # Recency score
             recency_score = self._calculate_recency_score(movie)
@@ -85,10 +94,10 @@ class RecommendationEngine:
     
     def _calculate_mood_score(self, movie, mood):
         """Calculate mood compatibility score"""
-        if mood not in self.config.MOOD_GENRE_MAP:
+        if mood not in self.mood_genre_map:
             return 0.5
         
-        preferred_genres = set(self.config.MOOD_GENRE_MAP[mood])
+        preferred_genres = set(self.mood_genre_map[mood])
         movie_genres = set(movie.get('genres', []))
         
         if not movie_genres:
@@ -99,10 +108,10 @@ class RecommendationEngine:
     
     def _calculate_time_score(self, movie, time_of_day):
         """Calculate time of day compatibility"""
-        if not time_of_day or time_of_day not in self.config.TIME_PREFERENCES:
+        if not time_of_day or time_of_day not in self.time_preferences:
             return 0.5
         
-        preferred_genres = set(self.config.TIME_PREFERENCES[time_of_day])
+        preferred_genres = set(self.time_preferences[time_of_day])
         movie_genres = set(movie.get('genres', []))
         
         intersection = preferred_genres & movie_genres

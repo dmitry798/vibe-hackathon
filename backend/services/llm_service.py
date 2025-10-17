@@ -14,17 +14,19 @@ class LLMService:
             self.api_key = self.config.get('OPENROUTER_API_KEY')
             self.base_url = self.config.get('OPENROUTER_BASE_URL')
             self.model = self.config.get('OPENROUTER_MODEL')
+            self.app_url = self.config.get('APP_URL')
         else:
             self.api_key = self.config.OPENROUTER_API_KEY
             self.base_url = self.config.OPENROUTER_BASE_URL
             self.model = self.config.OPENROUTER_MODEL
+            self.app_url = self.config.APP_URL
         
     def create_chat_completion(self, messages, stream=False, temperature=0.7, max_tokens=1000):
         """Create chat completion with OpenRouter API"""
         headers = {
             'Authorization': f'Bearer {self.api_key}',
             'Content-Type': 'application/json',
-            'HTTP-Referer': self.config.APP_URL,
+            'HTTP-Referer': self.app_url,
             'X-Title': 'Okko AI Assistant'
         }
         
