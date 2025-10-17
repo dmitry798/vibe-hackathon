@@ -103,7 +103,7 @@ class ContextService:
         
         # Weekend vs weekday
         if context.get('is_weekend'):
-            preferences['genres'].extend(['семейный', 'комедия'])
+            preferences['genres'].extend(['СЃРµРјРµР№РЅС‹Р№', 'РєРѕРјРµРґРёСЏ'])
             preferences['energy_level'] = 'high'
         
         return preferences

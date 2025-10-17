@@ -10,9 +10,14 @@ class LLMService:
     
     def __init__(self, config=None):
         self.config = config or Config()
-        self.api_key = self.config.OPENROUTER_API_KEY
-        self.base_url = self.config.OPENROUTER_BASE_URL
-        self.model = self.config.OPENROUTER_MODEL
+        if isinstance(self.config, dict):
+            self.api_key = self.config.get('OPENROUTER_API_KEY')
+            self.base_url = self.config.get('OPENROUTER_BASE_URL')
+            self.model = self.config.get('OPENROUTER_MODEL')
+        else:
+            self.api_key = self.config.OPENROUTER_API_KEY
+            self.base_url = self.config.OPENROUTER_BASE_URL
+            self.model = self.config.OPENROUTER_MODEL
         
     def create_chat_completion(self, messages, stream=False, temperature=0.7, max_tokens=1000):
         """Create chat completion with OpenRouter API"""

@@ -12,11 +12,11 @@ class DatabaseManager:
     def __init__(self, config=None):
         self.config = config or Config()
         self.connection_params = {
-            'host': self.config.DB_HOST,
-            'port': self.config.DB_PORT,
-            'database': self.config.DB_NAME,
-            'user': self.config.DB_USER,
-            'password': self.config.DB_PASSWORD
+            'host': self.config.get("DB_HOST"),
+            'port': self.config.get("DB_PORT"),
+            'database': self.config.get("DB_NAME"),
+            'user': self.config.get("DB_USER"),
+            'password': self.config.get("DB_PASSWORD")
         }
     
     @contextmanager
