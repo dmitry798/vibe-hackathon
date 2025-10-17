@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Okko AI Ассистент - Найди идеальный фильм</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="header__brand">
+                <div class="header__logo">
+                    <i class="fab fa-amazon" style="color: #6B46C1; font-size: 28px;"></i>
+                    <span class="header__title">AI Ассистент Okko</span>
+                </div>
+                <p class="header__subtitle">Найди идеальный фильм для своего настроения</p>
+            </div>
+            <div class="header__context" id="contextDisplay">
+                <span class="context-item" id="timeContext">?? Вечер</span>
+                <span class="context-item" id="moodContext">?? Хорошее настроение</span>
+                <span class="context-item" id="weatherContext">?? Солнечно</span>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="main">
+            <!-- Sidebar -->
+            <aside class="sidebar" id="sidebar">
+                <button class="sidebar__toggle" id="sidebarToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="sidebar__content">
+                    <div class="sidebar__section">
+                        <h3>Контекст</h3>
+                        <div class="context-info">
+                            <div class="context-info__item">
+                                <i class="fas fa-clock"></i>
+                                <span id="sidebarTime">17:00, Пятница</span>
+                            </div>
+                            <div class="context-info__item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span id="sidebarLocation">Москва</span>
+                            </div>
+                            <div class="context-info__item">
+                                <i class="fas fa-cloud-sun"></i>
+                                <span id="sidebarWeather">Солнечно, +15°C</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sidebar__section">
+                        <h3>Быстрые фильтры</h3>
+                        <div class="quick-filters">
+                            <button class="filter-btn" data-mood="happy">?? Веселое</button>
+                            <button class="filter-btn" data-mood="romantic">?? Романтика</button>
+                            <button class="filter-btn" data-mood="scary">?? Ужасы</button>
+                            <button class="filter-btn" data-mood="dramatic">?? Драма</button>
+                            <button class="filter-btn" data-mood="action">?? Боевик</button>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Chat Container -->
+            <div class="chat-container">
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message assistant-message welcome-message">
+                        <div class="message__avatar">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="message__content">
+                            <p>Привет! Я AI-ассистент Okko. Расскажи мне о своих предпочтениях, настроении или ситуации, и я помогу найти идеальный фильм или сериал для тебя. Что будем смотреть?</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="recommendations-container" id="recommendationsContainer"></div>
+
+                <div class="typing-indicator" id="typingIndicator" style="display: none;">
+                    <div class="typing-dots">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <span>Ассистент печатает...</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Input Area -->
+        <div class="input-area">
+            <div class="input-container">
+                <div class="examples-dropdown" id="examplesDropdown">
+                    <button class="examples-btn" id="examplesBtn">
+                        <i class="fas fa-lightbulb"></i>
+                        Примеры запросов
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="examples-list" id="examplesList">
+                        <div class="example-item" data-example="Собрались с друзьями, хотим посмотреть что-то веселое">
+                            "Собрались с друзьями, хотим посмотреть что-то веселое"
+                        </div>
+                        <div class="example-item" data-example="Подбери драму на свое усмотрение">
+                            "Подбери драму на свое усмотрение"
+                        </div>
+                        <div class="example-item" data-example="Мне очень понравился сериал Магический сюжет, можешь подобрать что-то похожее?">
+                            "Мне очень понравился сериал Магический сюжет, можешь подобрать что-то похожее?"
+                        </div>
+                        <div class="example-item" data-example="Скоро долгий перелет, посоветуй что-то для скрашивания времени в самолете">
+                            "Скоро долгий перелет, посоветуй что-то для скрашивания времени в самолете"
+                        </div>
+                        <div class="example-item" data-example="Подбери романтическую комедию на вечер пятницы">
+                            "Подбери романтическую комедию на вечер пятницы"
+                        </div>
+                        <div class="example-item" data-example="Хочу посмотреть что-то страшное">
+                            "Хочу посмотреть что-то страшное"
+                        </div>
+                        <div class="example-item" data-example="Настроение грустное, нужна комедия">
+                            "Настроение грустное, нужна комедия"
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="input-wrapper">
+                    <textarea 
+                        id="messageInput" 
+                        placeholder="Расскажите о ваших предпочтениях, настроении или ситуации..." 
+                        rows="1"
+                    ></textarea>
+                    <button id="sendButton" class="send-btn">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
